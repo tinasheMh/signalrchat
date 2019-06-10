@@ -55,18 +55,26 @@ connection.start().then(function () {
 });
 
 document.getElementById("sendButton").addEventListener("click", function (event) {
+    sendChat();
+});
 
+document.getElementById("messageInput").addEventListener("keyup", function (event) {
+    if (event.keyCode === 13) {
+        sendChat();
+    }
+});
+
+function sendChat() {
     var user = document.getElementById("userInput").value;
     var message = document.getElementById("messageInput").value;
     var profilePhoto = document.getElementById("profilePhotoUrl").value;
     connection.invoke("SendMessage", user, message, profilePhoto).catch(function (err) {
         return console.error(err.toString());
     });
-    document.getElementById("messageInput").innerHTML = "";
-    $("#messageInput").value = "";
-    event.preventDefault();
 
     // clear the input filed
-    
-
-});
+    document.getElementById("messageInput").innerHTML = "";
+    // for Chrome JQuery
+    $('#messageInput').val('');
+    event.preventDefault();
+}
